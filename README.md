@@ -1,6 +1,7 @@
 Mage
 ====
 Easy access ImageMagick from Golang
+[![Build Status](https://secure.travis-ci.org/dqminh/mage.png)](http://travis-ci.org/dqminh/mage)
 
 Dependencies:
 ===========
