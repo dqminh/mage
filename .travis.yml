@@ -1,3 +1,5 @@
 language: go
+before_install:
+ - sudo apt-get install libmagickcore-dev libmagickwand-dev libmagick-dev imagemagick
 script:
  - curl https://raw.github.com/daaku/go.travis/master/install | sh
