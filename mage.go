@@ -151,7 +151,7 @@ func (m *Mage) ReadBlob(blob []byte) bool {
   return mBoolean(C.MagickReadImageBlob(
     m.wand,
     unsafe.Pointer(&blob[0]),
-    C.ulong(len(blob))))
+    C.size_t(len(blob))))
 }
 
 // Public: export the current image into a blob. Also destroy the current wand
@@ -163,7 +163,7 @@ func (m *Mage) ReadBlob(blob []byte) bool {
 //  imageBytes := im.ExportBlob()
 func (m *Mage) ExportBlob() []byte {
   defer m.Destroy()
-  newSize := C.ulong(0)
+  newSize := C.size_t(0)
   C.MagickResetIterator(m.wand)
   image := C.MagickGetImageBlob(m.wand, &newSize)
   imagePointer := unsafe.Pointer(image)
