@@ -1,5 +1,6 @@
 language: go
 before_install:
  - sudo apt-get install libmagickcore-dev libmagickwand-dev imagemagick
+ - sudo apt-get install bzr
 script:
  - curl https://raw.github.com/daaku/go.travis/master/install | sh
