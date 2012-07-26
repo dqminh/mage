@@ -1,7 +1,7 @@
 package mage
 
-// #cgo pkg-config: MagickWand
-// #include <stddef.h>
+// #cgo LDFLAGS: -lMagickWand -lMagickCore
+// #cgo pkg-config: MagickWand MagickCore
 // #include <stdlib.h>
 // #include <wand/MagickWand.h>
 import "C"
