@@ -1,6 +1,5 @@
 package mage
 
-// #cgo LDFLAGS: -lMagickWand -lMagickCore
 // #cgo pkg-config: MagickWand MagickCore
 // #include <stdlib.h>
 // #include <wand/MagickWand.h>
@@ -60,8 +59,8 @@ func blankWand(format string, width, height int) *C.MagickWand {
   defer C.DestroyPixelWand(pixel)
 
   C.PixelSetColor(pixel, noneBackground);
-  C.MagickSetSize(wand, C.size_t(width), C.size_t(height));
-  C.MagickNewImage(wand, C.size_t(width), C.size_t(height), pixel)
+  C.MagickSetSize(wand, C.ulong(width), C.ulong(height));
+  C.MagickNewImage(wand, C.ulong(width), C.ulong(height), pixel)
   return wand
 }
 
@@ -110,8 +109,8 @@ func (m *Mage) compositeCenter(newWand *C.MagickWand, x, y int) bool{
     newWand,
     m.wand,
     C.OverCompositeOp,
-    C.ssize_t(x),
-    C.ssize_t(y))
+    C.long(x),
+    C.long(y))
   C.DestroyMagickWand(m.wand)
   m.wand = newWand
   return mBoolean(success)
@@ -128,8 +127,8 @@ func (m *Mage) compositeCenter(newWand *C.MagickWand, x, y int) bool{
 func (m *Mage) resize(width, height int) bool {
   return mBoolean(C.MagickResizeImage(
     m.wand,
-    C.size_t(width),
-    C.size_t(height),
+    C.ulong(width),
+    C.ulong(height),
     C.LanczosFilter,
     C.double(1.0)))
 }
@@ -152,7 +151,7 @@ func (m *Mage) ReadBlob(blob []byte) bool {
   return mBoolean(C.MagickReadImageBlob(
     m.wand,
     unsafe.Pointer(&blob[0]),
-    C.size_t(len(blob))))
+    C.ulong(len(blob))))
 }
 
 // Public: export the current image into a blob. Also destroy the current wand
@@ -164,7 +163,7 @@ func (m *Mage) ReadBlob(blob []byte) bool {
 //  imageBytes := im.ExportBlob()
 func (m *Mage) ExportBlob() []byte {
   defer m.Destroy()
-  newSize := C.size_t(0)
+  newSize := C.ulong(0)
   C.MagickResetIterator(m.wand)
   image := C.MagickGetImageBlob(m.wand, &newSize)
   imagePointer := unsafe.Pointer(image)
