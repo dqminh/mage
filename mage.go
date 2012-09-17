@@ -59,8 +59,8 @@ func blankWand(format string, width, height int) *C.MagickWand {
   defer C.DestroyPixelWand(pixel)
 
   C.PixelSetColor(pixel, noneBackground);
-  C.MagickSetSize(wand, C.ulong(width), C.ulong(height));
-  C.MagickNewImage(wand, C.ulong(width), C.ulong(height), pixel)
+  C.MagickSetSize(wand, C.size_t(width), C.size_t(height));
+  C.MagickNewImage(wand, C.size_t(width), C.size_t(height), pixel)
   return wand
 }
 
@@ -109,8 +109,8 @@ func (m *Mage) compositeCenter(newWand *C.MagickWand, x, y int) bool{
     newWand,
     m.wand,
     C.OverCompositeOp,
-    C.long(x),
-    C.long(y))
+    C.ssize_t(x),
+    C.ssize_t(y))
   C.DestroyMagickWand(m.wand)
   m.wand = newWand
   return mBoolean(success)
@@ -127,8 +127,8 @@ func (m *Mage) compositeCenter(newWand *C.MagickWand, x, y int) bool{
 func (m *Mage) resize(width, height int) bool {
   return mBoolean(C.MagickResizeImage(
     m.wand,
-    C.ulong(width),
-    C.ulong(height),
+    C.size_t(width),
+    C.size_t(height),
     C.LanczosFilter,
     C.double(1.0)))
 }
